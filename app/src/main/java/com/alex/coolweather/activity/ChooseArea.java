@@ -65,13 +65,18 @@ public class ChooseArea extends Activity {
      * 选中的级别
      */
     private int currentLevel;
+    /**
+     * 是否从WeatherActivity中跳转过来
+     */
+    private boolean isFromWeatherActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
         setContentView(R.layout.choose_area);
         //After WeatherActivity created
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("city_selected", false)){
+        if(prefs.getBoolean("city_selected", false) && !isFromWeatherActivity){
             Intent intent = new Intent(this, WeatherActivity.class);
             startActivity(intent);
             finish();
@@ -212,6 +217,7 @@ public class ChooseArea extends Activity {
             }
         });
     }
+
     /**
      * 显示进度对话框
      */
@@ -241,6 +247,10 @@ public class ChooseArea extends Activity {
         } else if (currentLevel == LEVEL_CITY){
             queryProvinces();
         } else {
+            if (isFromWeatherActivity) {
+                Intent intent = new Intent(this, WeatherActivity.class);
+                startActivity(intent);
+            }
             finish();
         }
     }

@@ -1,7 +1,5 @@
 package com.alex.coolweather.util;
 
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,7 +28,6 @@ public class HttpUtil {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    Log.d("ChooseArea", "Response is " + response.toString());
                     if (listener != null){
                         //回调onFinish()方法
                         listener.onFinish(response.toString());
